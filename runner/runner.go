@@ -1,8 +1,8 @@
 package main
 
 import (
-	"AstartProject/astar"
 	"fmt"
+	"github.com/VanyaDNDZ/AStarPathFind/astar"
 	"image/gif"
 	"os"
 )
