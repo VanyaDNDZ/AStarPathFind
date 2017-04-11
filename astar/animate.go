@@ -25,10 +25,8 @@ func SaveGif(out io.Writer, anim *gif.GIF) error {
 }
 
 func AddFrame(anim *gif.GIF, graph *Graph2d) {
-	const (
-		size      = 600
-		endgeSize = 200
-	)
+	size := len(*graph)*100
+	endgeSize := 200
 
 	rect := image.Rect(0, 0, 2*size+1, 2*size+1)
 	img := image.NewPaletted(rect, Palette)
