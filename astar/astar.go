@@ -4,6 +4,7 @@ import (
 	"container/heap"
 	"image/gif"
 	"math"
+	"github.com/VanyaDNDZ/AStarPathFind/priority"
 )
 
 type Point struct {
@@ -22,6 +23,14 @@ type Node struct {
 	InRoute      bool
 }
 
+func (node *Node) GetPriority() int  {
+	return node.Priority
+}
+
+func (node *Node) SetIndex(value int)  {
+	node.Index = value
+}
+
 func NewNode(point Point, nodeType string) *Node {
 	node := &Node{}
 	node.CurrentPoint = point
@@ -35,8 +44,14 @@ func NewNode(point Point, nodeType string) *Node {
 	return node
 }
 
-func (n Node) eq(other Node) bool {
-	return n.CurrentPoint == other.CurrentPoint
+func (n Node) Eq(other interface{}) bool {
+	if node, ok := other.(Node); ok{
+		return n.CurrentPoint == node.CurrentPoint
+	}else if node, ok := other.(*Node); ok{
+		return n.CurrentPoint == node.CurrentPoint
+	}else{
+		return false
+	}
 }
 
 func heuristic(a, b Point) int {
@@ -62,8 +77,8 @@ func gscore(node *Node) int {
 func Astar(graph *Graph2d, start, end Node, anim *gif.GIF) (*Node, bool) {
 	var current *Node
 	//c := make(chan Node)
-	openSet := &PriorityQueue{}
-	closeSet := &PriorityQueue{}
+	openSet := &priority.PriorityQueue{}
+	closeSet := &priority.PriorityQueue{}
 	heap.Init(openSet)
 	heap.Init(closeSet)
 
@@ -72,17 +87,17 @@ func Astar(graph *Graph2d, start, end Node, anim *gif.GIF) (*Node, bool) {
 	for openSet.Len() > 0 {
 		current = heap.Pop(openSet).(*Node)
 		current.Visited = true
-		if current.eq(end) {
+		if current.Eq(end) {
 			return current, true
 		}
 		heap.Push(closeSet, current)
 
 		for _, neighbor := range graph.GetNeighbors(current) {
-			if closeSet.Has(*neighbor) {
+			if closeSet.Has(neighbor) {
 				continue
 			}
 			tentative_gScore := gscore(neighbor)
-			if !openSet.Has(*neighbor) {
+			if !openSet.Has(neighbor) {
 				neighbor.came_from = current
 				neighbor.GScore = tentative_gScore
 				neighbor.Priority = neighbor.GScore + heuristic(neighbor.CurrentPoint, end.CurrentPoint)
