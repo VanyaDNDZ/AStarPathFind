@@ -3,20 +3,14 @@ package main
 import (
 	"fmt"
 	"github.com/VanyaDNDZ/AStarPathFind/astar"
+	"github.com/VanyaDNDZ/AStarPathFind/maze"
 	"image/gif"
 	"os"
 )
 
 func main() {
 
-	matrix := [][]string{
-		[]string{"v", "v", "e", "v", "v", "v"},
-		[]string{"v", "o", "o", "o", "o", "v"},
-		[]string{"v", "v", "v", "v", "v", "v"},
-		[]string{"v", "o", "v", "v", "v", "v"},
-		[]string{"v", "o", "o", "o", "o", "o"},
-		[]string{"v", "v", "v", "v", "v", "s"},
-	}
+	matrix := maze.GenerateMaze(50)
 
 	graph, start_node, end_node := astart.BuildGraph(matrix)
 	f, err := os.OpenFile("rgb.gif", os.O_WRONLY|os.O_CREATE, 0600)

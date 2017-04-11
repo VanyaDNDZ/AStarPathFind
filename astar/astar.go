@@ -40,9 +40,9 @@ func (n Node) eq(other Node) bool {
 }
 
 func heuristic(a, b Point) int {
-	difX := math.Abs(float64(a.X-b.X))
-	difY := math.Abs(float64(a.Y-b.Y))
-	return - int( difY + difX )
+	difX := math.Abs(float64(a.X - b.X))
+	difY := math.Abs(float64(a.Y - b.Y))
+	return -int(difY + difX)
 }
 
 func gscore(node *Node) int {
@@ -68,7 +68,6 @@ func Astar(graph *Graph2d, start, end Node, anim *gif.GIF) (*Node, bool) {
 	heap.Init(closeSet)
 
 	heap.Push(openSet, &start)
-
 
 	for openSet.Len() > 0 {
 		current = heap.Pop(openSet).(*Node)
