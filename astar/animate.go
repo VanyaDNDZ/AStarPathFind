@@ -7,8 +7,7 @@ import (
 	"io"
 )
 
-const NFrames = 64
-const Delay = 20
+const Delay = 5
 
 var Palette = []color.Color{
 	color.Black,                        // obstacle
@@ -25,8 +24,8 @@ func SaveGif(out io.Writer, anim *gif.GIF) error {
 }
 
 func AddFrame(anim *gif.GIF, graph *Graph2d) {
-	size := len(*graph)*100
-	endgeSize := 200
+	size := len(*graph) * 10
+	endgeSize := 20
 
 	rect := image.Rect(0, 0, 2*size+1, 2*size+1)
 	img := image.NewPaletted(rect, Palette)
