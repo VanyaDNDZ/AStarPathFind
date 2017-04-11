@@ -1,6 +1,8 @@
 package maze
 
-import "math/rand"
+import (
+	"math/rand"
+)
 
 var celltypes = map[int]string{0:"o", 1:"v", 2:"v", 3:"v"}
 
@@ -20,8 +22,8 @@ func GenerateMaze(size int) [][]string  {
 func setEndStart(maze *[][]string, size int){
 	start := rand.Intn(size*size)
 	end := rand.Intn(size*size)
-	(*maze)[start/100][start % 100] = "s"
-	(*maze)[end/100][end % 100] = "e"
+	(*maze)[start/size][start % size] = "s"
+	(*maze)[end/size][end % size] = "e"
 }
 
 func getCell() string {
